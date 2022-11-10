@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { toast } from 'react-toastify'
-// import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { FaSignInAlt } from 'react-icons/fa'
-// import { useSelector, useDispatch } from 'react-redux'
-// import { login } from '../features/auth/authSlice'
+import { useSelector, useDispatch } from 'react-redux'
+import { login } from '../features/auth/authSlice'
 import Spinner from '../components/Spinner'
 
 function Login() {
@@ -14,10 +14,10 @@ function Login() {
 
   const { email, password } = formData
 
-  // const dispatch = useDispatch()
-  // const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
-  // const { isLoading } = useSelector((state) => state.auth)
+  const { user, isLoading, isSuccess, message } = useSelector((state) => state.auth)
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -39,17 +39,16 @@ function Login() {
       email,
       password,
     }
-
-  //   dispatch(login(userData))
-  //     .unwrap()
-  //     .then((user) => {
-  //       // NOTE: by unwrapping the AsyncThunkAction we can navigate the user after
-  //       // getting a good response from our API or catch the AsyncThunkAction
-  //       // rejection to show an error message
-  //       toast.success(`Logged in as ${user.name}`)
-  //       navigate('/')
-  //     })
-  //     .catch(toast.error)
+    dispatch(login(userData))
+      .unwrap()
+      .then((user) => {
+        // NOTE: by unwrapping the AsyncThunkAction we can navigate the user after
+        // getting a good response from our API or catch the AsyncThunkAction
+        // rejection to show an error message
+        toast.success(`Logged in as ${user.name}`)
+        navigate('/')
+      })
+      .catch(toast.error)
 
   }
 
